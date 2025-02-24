@@ -6,12 +6,13 @@ import './App.css'
 function App() {
   const [userName , setUserName] = useState("");
   const [email , setEmail] = useState("");
+  const [user ,   setUser] = useState([]);
 
   async function fetchData(){
    try {
     const response = await fetch("http://localhost:3000/users");
     const data = await response.json();
-    console.log(data);
+    setUser(data);
    } catch (error) {
     console.log(error)
    }
@@ -24,7 +25,7 @@ function App() {
       const response = await fetch("http://localhost:3000/create-user" ,{ method:"POST", headers :  {
         "Content-Type" : "application/json"
       } ,body : JSON.stringify({userName , email})});
-      console.log(response);
+      fetchData();
     } catch (error) {
       console.log(error);
     }
@@ -52,6 +53,16 @@ function App() {
        </div>
         <button >Create User</button>
       </form>
+      <div>
+        {user.map((item)=>{
+          return (
+            <div>
+              <h3>{item.userName}</h3>
+              <p>{item.email}</p>
+            </div>
+          )
+        })}
+      </div>
     </div>
   )
 }

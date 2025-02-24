@@ -1,5 +1,8 @@
 const express = require("express");
 const cors = require("cors");
+const userRoutes = require("./routes/userRoutes");
+const productRoutes = require("./routes/productRoutes");
+const connectDb = require("./config/db");
 
 const app = express();
 
@@ -8,20 +11,21 @@ const app = express();
 
 let data = [];
 
+connectDb();
+
 app.use(express.json());
 app.use(cors());
 
-app.get("/users",(req,res)=>{
-    res.send(data);
-});
 
-app.post("/create-user",(req,res)=>{
-    let userData = req.body;
-    data.push(userData);
-    res.json("User Created");
-})
 
+app.use("/users",userRoutes);
+app.use("/products",productRoutes);
 
 app.listen(3000,()=>{
     console.log("Server is running on port 3000");
 });
+
+// mvc on ecommerce - lupsum - 100- 200  - model  controller routes
+// user management - "/getAllUsers" , "/getUserById" , "/getUserBySearch" ,  "/create-user", "/updateUser" , "/delete-user"
+// product Managent -  "/getAllProducts" , "getProductById" , "/getProductBySearch" ,  "/getProductByCategory" , "/updateProduct" ,   "/deleteProduct"
+// order management - "/create-order" , "/getOrderByUserId" , "/deleteOrder" ,  "/getAllOrder"
