@@ -21,7 +21,7 @@ app.use(cors());
 app.use("/users",userRoutes);
 app.use("/products",productRoutes);
 
-app.listen(3000,()=>{
+app.listen(3000,()=>{  // http://localhost:3000/users/getAllUsers
     console.log("Server is running on port 3000");
 });
 
