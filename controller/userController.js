@@ -10,6 +10,40 @@ exports.getAllUsers = async (req,res)=>{ // http://localhost:3000/users/getAllUs
     
 }
 
+// get one user api
+
+exports.getUserById = async (req,res)=>{
+    try {
+        // console.log(req.params.id);
+        const user = await User.findById(req.params.id);
+        res.status(200).send({message : "User Fetched" , data : user});
+    } catch (error) {
+        res.status(500).send({message : "error", error : error.message});
+    }
+}
+
+exports.updateUser = async (req,res)=>{
+    try {
+        const id = req.params.id;
+        const body = req.body;
+
+        const user = await User.findByIdAndUpdate(id , body , {new : true});
+        res.status(202).send({message : "User Updated" , data : user});
+    } catch (error) {
+        res.status(500).send({message : "error"});
+    }
+}
+
+exports.deleteUser = async (req,res)=>{
+    try {
+        const id = req.params.id;
+        const user = await User.findByIdAndDelete(id);
+        res.status(202).send({message : "User Deleted" , data : user})
+    } catch (error) {
+        res.status(500).send({message : "error",error : error.message});
+    }
+}
+
 exports.createUser = async (req,res)=>{
     try {
         let body = req.body;
@@ -28,6 +62,8 @@ exports.createUser = async (req,res)=>{
     }
 }
 
-exports.getUserById = (req,res)=>{ // http://localhost:3000/users/getUserById
-    res.send("User Fetched By Id");
-};
+// exports.getUserById = (req,res)=>{ // http://localhost:3000/users/getUserById
+//     res.send("User Fetched By Id");
+// };
+
+// product apis
