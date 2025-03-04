@@ -17,6 +17,10 @@ router.post("/createUser",userController.createUser);
 
 router.get("/getUserById",userController.getUserById);
 
+router.post("/singup",userController.signup);
+
+router.post("/login",userController.login);
+
 module.exports = router;
 
-// 
+// sign up  and login
