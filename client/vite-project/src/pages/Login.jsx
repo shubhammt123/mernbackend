@@ -2,11 +2,12 @@ import React, { useContext, useState } from 'react'
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthProvider';
+import { jwtDecode } from 'jwt-decode';
 
 const Login = () => {
   const [formData , setFromData] = useState({});
   const navigate = useNavigate();
-  const {auth , setAuth } = useContext(AuthContext);
+  const {auth , setAuth , setRole } = useContext(AuthContext);
 
   console.log(auth)
 
@@ -18,7 +19,7 @@ const Login = () => {
   // /checkout , /orderSucessful , /myorder , /wishlist - can be accessed by customer only
   // /dashboard , /admin-product , /admin-order  , /admin-user - can be accessed  by admin only
   // /profile - can be accessed by both admin and customer
-  // /login , /singup - these routes can be accessed only when on one is logged-in
+  // /login , /singup - these routes can be accessed only when no one is logged-in
 
   const handleSubmit = async (e)=>{
     console.log("Hello Grras")
@@ -27,7 +28,9 @@ const Login = () => {
       const response = await axios.post("http://localhost:3000/users/login",formData);
       console.log(response)
       localStorage.setItem("token",response.data.token);
-      navigate("/dashboard");
+      let decodeToken = jwtDecode(response.data.token);
+      setRole(decodeToken.role);
+      navigate("/");
     } catch (error) {
       console.log(error);
     }

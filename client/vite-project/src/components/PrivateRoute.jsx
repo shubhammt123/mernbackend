@@ -3,13 +3,17 @@ import { useNavigate, useOutletContext } from 'react-router-dom'
 import { Outlet } from 'react-router-dom'
 import { AuthContext } from '../context/AuthProvider'
 
-const PrivateRoute = () => {
-    const {auth , setAuth , role} = useContext(AuthContext);
+const PrivateRoute = ({allowedRole}) => {
+  console.log(allowedRole)
+    const {auth , setAuth , role , setRole} = useContext(AuthContext);
     const navigate = useNavigate();
-    console.log(role);
     useEffect(()=>{
         if(!auth){
              navigate("/login");
+        }
+
+        if(!allowedRole.includes(role)){
+          navigate("/");
         }
     },[]);
 

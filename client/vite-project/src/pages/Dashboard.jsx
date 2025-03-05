@@ -6,8 +6,8 @@ const Dashboard = () => {
     const navigate = useNavigate();
     const {auth ,setAuth , role , setRole} = useContext(AuthContext);
     const handleLogout = ()=>{
-        localStorage.removeItem("role");
-        localStorage.setItem("auth",0);
+        localStorage.clear();
+        // localStorage.setItem("auth",false);
         setRole(null);
         setAuth(false);
         navigate("/login")
